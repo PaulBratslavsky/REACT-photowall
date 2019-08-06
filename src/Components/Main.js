@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import Title from './Title';
 import PhotoWall from './PhotoWall';
-import { posts } from '../data';
 import propTypes from 'prop-types';
 import AddPhoto from './AddPhoto';
 import { Route } from 'react-router-dom';
-
-
+import { connect } from 'react-redux';
 
 class Main extends Component {
 
@@ -15,7 +13,7 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    this.setState({ posts: posts })
+    this.setState({ posts: this.props.posts })
   }
 
   handleRemovePhoto = (postID) => {
@@ -31,7 +29,6 @@ class Main extends Component {
   render() {
 
     const { posts } = this.state;
-    console.log(posts, 'HELO');
     return (
       <React.Fragment>
         <Title />
@@ -52,4 +49,10 @@ PhotoWall.propTypes = {
   handleRemovePhoto: propTypes.func.isRequired
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+  console.log(state, 'from stat to props');
+  return { 
+    posts: state.posts
+  }
+}
+export default connect(mapStateToProps)(Main);

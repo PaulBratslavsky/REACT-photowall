@@ -6,5 +6,12 @@ import Main from './Components/Main';
 
 import './main.css';
 
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { rootReducer } from  './Redux/Reducers/combine';
 
-ReactDom.render(<Router><Main /></Router>, document.getElementById('root'));
+const store = createStore(rootReducer);
+console.log(store);
+
+
+ReactDom.render(<Provider store={store}><Router><Main /></Router></Provider>, document.getElementById('root'));
