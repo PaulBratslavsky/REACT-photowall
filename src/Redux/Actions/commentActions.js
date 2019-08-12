@@ -1,3 +1,14 @@
+import { database } from './../../firebase';
+
+export const addCommentsToDatabase = (postID, comment) => (dispatch) =>  {
+  return database.ref('comments').update({[postID]: comment})
+  .then( () => {
+    dispatch(addCommentAction(postID, comment));
+  })
+  .catch( (error) => console.log(error) );
+}
+
+
 export const addCommentAction = (postID, comment) => {
   console.log('add comment fired');
   return {

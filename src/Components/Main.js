@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component }from 'react';
 
 import propTypes from 'prop-types';
 
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { removePostAction, addPostAction } from './../Redux/Actions/postActions';
-import { addCommentAction, removeCommentAction } from './../Redux/Actions/commentActions';
+import { removePostAction, addPostToDatabase, getPostFromDatabase, removePostFromDatabase } from './../Redux/Actions/postActions';
+import { addCommentsToDatabase, removeCommentAction } from './../Redux/Actions/commentActions';
 
 // IMPORT COMPONENTS
 import Title from './Title';
@@ -15,21 +15,27 @@ import AddPhoto from './AddPhoto';
 
 
 
-const Main = (props) =>  {
+class Main extends Component {
+  componentDidMount() {
+    this.props.getPostFromDatabase();
+  }
+
+  render() {
+
     return (
       <React.Fragment>
         <Title />
         <div>
-          <Route exact path='/' render={ () => <PhotoWall {...props} /> } />
+          <Route exact path='/' render={ () => <PhotoWall {...this.props} /> } />
 
-          <Route path='/addphoto' render= { ({history}) => <AddPhoto {...props} history={history} /> } />
+          <Route path='/addphoto' render= { ({history}) => <AddPhoto {...this.props} history={history} /> } />
 
-          <Route exact path='/single/:id' render={ ({match}) => <Single {...props} match={match} /> } />
+          <Route exact path='/single/:id' render={ ({match}) => <Single {...this.props} match={match} /> } />
         </div>
       </React.Fragment>
       
     )
-  
+  }
 }
 
 PhotoWall.propTypes = {
@@ -43,6 +49,6 @@ const mapStateToProps = (state) => {
     comments: state.comments
   }
 }
-export default connect(mapStateToProps, { removePostAction, addPostAction, addCommentAction, removeCommentAction })(Main);
+export default connect(mapStateToProps, { removePostAction, addPostToDatabase,removePostFromDatabase, addCommentsToDatabase, removeCommentAction, getPostFromDatabase })(Main);
 
 

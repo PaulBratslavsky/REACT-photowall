@@ -24,7 +24,7 @@ class AddPhoto extends Component {
       }
       console.log('Form Submitted',newPhoto);
 
-      this.props.addPostAction(newPhoto);
+      this.props.addPostToDatabase(newPhoto);
       this.props.history.push('/'); 
     } else {
       console.log('Form Not Submitted');

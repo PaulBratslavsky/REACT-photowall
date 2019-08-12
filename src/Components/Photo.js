@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Photo = (props) => {
-  const { removePostAction, post } = props;
+  const { removePostFromDatabase, post } = props;
   console.log('props', props);
 
 
@@ -14,7 +14,7 @@ const Photo = (props) => {
       <Link to={`/single/${post.id}`}><img className='photo' src={post.imageLink} alt={post.description}/></Link>
       <figcaption><p>{post.description}</p></figcaption>
       <div className='button-container'>
-        <button onClick={ () => removePostAction(post.id) } className='remove-button'>Remove</button>
+        <button onClick={ () => removePostFromDatabase(post.id) } className='remove-button'>Remove</button>
         <Link className='button' to={`/single/${post.id}`}><div className='comment-count'>
           <div className='speech-bubble'>
 

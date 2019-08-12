@@ -1,6 +1,3 @@
-import { comments } from './../../data';
-
-
 const initialState = [];
 
 export const commentReducer = (state = initialState, action) => {

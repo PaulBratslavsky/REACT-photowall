@@ -1,7 +1,4 @@
-import { posts } from './../../data';
-
-
-const initialState = posts;
+const initialState = [];
 
 export const postReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -11,6 +8,9 @@ export const postReducer = (state = initialState, action) => {
 
     case 'ADD_POST':
       return [...state, action.post];
+
+    case 'LOAD_POSTS':
+      return action.posts;
 
     default: 
     return state;

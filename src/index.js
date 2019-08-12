@@ -9,10 +9,14 @@ import Main from './Components/Main';
 import './main.css';
 
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { rootReducer } from  './Redux/Reducers/combine';
 
-const store = createStore(rootReducer, composeWithDevTools());
+import thunk from 'redux-thunk';
+
+import { database } from './firebase';
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 console.log(store);
 
 

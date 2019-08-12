@@ -13,7 +13,7 @@ class Comments extends Component {
 
     if ( this.state.comment !== '' || this.state.comment > 0 ) {
       console.log('Comment add clicked');
-      this.props.addCommentAction(this.props.postID, this.state.comment);
+      this.props.addCommentsToDatabase(this.props.postID, this.state.comment);
       
       this.setState({comment: ''});
     } else {
@@ -23,10 +23,8 @@ class Comments extends Component {
   }
 
   displayComments = (comments) => {
-    console.log(comments, 'from comments');
     const currentComments = comments.filter( comment => comment.postID === this.props.postID);
     
-    console.log(currentComments);
 
     return currentComments.sort((x,y) => y.timestamp -x.timestamp ).map( (post, index) => <p key={index}>{post.comment}<span style={{float: 'right'}} onClick={() => this.props.removeCommentAction(post.timestamp)}>x</span></p>);
   }
@@ -34,7 +32,6 @@ class Comments extends Component {
   render() {
 
     const { comments } = this.props;
-    console.log(comments);
 
     return (
       <div className='comment'>
