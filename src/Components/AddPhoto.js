@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class AddPhoto extends Component {
   state = {
@@ -17,13 +18,13 @@ class AddPhoto extends Component {
 
     if ( this.isFormNotEmpty(this.state.getLink, this.state.getDescription) ) {
       const newPhoto = {
-        id: Number(new Date()),
+        id: Number(new Date()).toString(),
         description: this.state.getDescription,
         imageLink: this.state.getLink
       }
       console.log('Form Submitted',newPhoto);
 
-      this.props.handleAddPhoto(newPhoto);
+      this.props.addPostAction(newPhoto);
       this.props.history.push('/'); 
     } else {
       console.log('Form Not Submitted');
@@ -32,7 +33,6 @@ class AddPhoto extends Component {
 
   render() {
     const { getLink, getDescription } = this.state;
-    console.log(getLink, getDescription);
     return (
       <div className='form'>
         <form onSubmit={this.onSubmitForm}>
@@ -41,6 +41,7 @@ class AddPhoto extends Component {
           <input onChange={this.handleInputChange} type='text' placeholder='type description here...' name='getDescription' value={getDescription}/>
 
           <button>Add Photo</button>
+          <Link style={{float: 'right', fontSize: '1.6rem', padding: '1rem 0 1rem 1rem'}} to='/' >Cancel</Link>
 
         </form>
       </div>

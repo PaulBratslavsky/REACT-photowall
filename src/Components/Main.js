@@ -1,58 +1,48 @@
-import React, { Component } from 'react';
-import Title from './Title';
-import PhotoWall from './PhotoWall';
+import React from 'react';
+
 import propTypes from 'prop-types';
-import AddPhoto from './AddPhoto';
+
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { removePostAction, addPostAction } from './../Redux/Actions/postActions';
+import { addCommentAction, removeCommentAction } from './../Redux/Actions/commentActions';
 
-class Main extends Component {
+// IMPORT COMPONENTS
+import Title from './Title';
+import PhotoWall from './PhotoWall';
+import Single from './Single';
+import AddPhoto from './AddPhoto';
 
-  state = {
-    posts: []
-  }
 
-  componentDidMount() {
-    this.setState({ posts: this.props.posts })
-  }
 
-  handleRemovePhoto = (postID) => {
-    const updated = this.state.posts.filter( post => post.id !== postID );
-    this.setState({posts: updated});
-  } 
-
-  handleAddPhoto = (newPhoto) => {
-    const updated = this.state.posts.concat(newPhoto);
-    this.setState({posts: updated});
-  }
-  
-  render() {
-
-    const { posts } = this.state;
+const Main = (props) =>  {
     return (
       <React.Fragment>
         <Title />
         <div>
-          <Route exact path='/' render={ () => <PhotoWall posts={posts} handleRemovePhoto={this.handleRemovePhoto} /> } />
+          <Route exact path='/' render={ () => <PhotoWall {...props} /> } />
 
-          <Route path='/addphoto' render= { ({history}) => <AddPhoto handleAddPhoto={this.handleAddPhoto} history={history} /> } />
+          <Route path='/addphoto' render= { ({history}) => <AddPhoto {...props} history={history} /> } />
+
+          <Route exact path='/single/:id' render={ ({match}) => <Single {...props} match={match} /> } />
         </div>
       </React.Fragment>
       
     )
-  }
   
 }
 
 PhotoWall.propTypes = {
   posts: propTypes.array.isRequired,
-  handleRemovePhoto: propTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
   console.log(state, 'from stat to props');
   return { 
-    posts: state.posts
+    posts: state.posts,
+    comments: state.comments
   }
 }
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, { removePostAction, addPostAction, addCommentAction, removeCommentAction })(Main);
+
+

@@ -1,31 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Photo from './Photo';
 import propTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 
 
-class PhotoWall extends Component {
+const PhotoWall = (props) => {
 
-  loopThroughPosts = (posts) => ( posts.sort((x,y) => y.id -x.id ).map( (post) => <Photo key={post.id} post={post} handleRemovePhoto={this.props.handleRemovePhoto}/>));
+  const loopThroughPosts = (posts) => ( posts.sort((x,y) => y.id -x.id ).map( (post) => <Photo {...props} key={post.id} post={post} />));
 
-  render() {
-    const { posts } = this.props;
+    const { posts } = props;
     
     return (
       <div>
         <Link className='addIcon'  to='/addphoto'></Link>
         <div className='photoGrid'>
-          { posts && this.loopThroughPosts(posts) }
+          { posts && loopThroughPosts(posts) }
         </div>
       </div>
       
     )
-  }
+
 }
 
 Photo.propTypes = {
   post: propTypes.object.isRequired,
-  handleRemovePhoto: propTypes.func.isRequired
 }
 
 
