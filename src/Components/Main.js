@@ -5,7 +5,7 @@ import propTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { removePostAction, addPostToDatabase, getPostFromDatabase, removePostFromDatabase } from './../Redux/Actions/postActions';
-import { addCommentsToDatabase, removeCommentAction } from './../Redux/Actions/commentActions';
+import { addCommentsToDatabase, loadCommentsFromDatabase } from './../Redux/Actions/commentActions';
 
 // IMPORT COMPONENTS
 import Title from './Title';
@@ -16,8 +16,17 @@ import AddPhoto from './AddPhoto';
 
 
 class Main extends Component {
+
+  state = {
+    loading: true
+  }
+
   componentDidMount() {
-    this.props.getPostFromDatabase();
+    console.log("COMPONENT DID MOUNT");
+    this.props.getPostFromDatabase().then(() => {
+      this.setState({loading: false})
+    });
+    this.props.loadCommentsFromDatabase();
   }
 
   render() {
@@ -30,7 +39,7 @@ class Main extends Component {
 
           <Route path='/addphoto' render= { ({history}) => <AddPhoto {...this.props} history={history} /> } />
 
-          <Route exact path='/single/:id' render={ ({match}) => <Single {...this.props} match={match} /> } />
+          <Route exact path='/single/:id' render={ ({match}) => <Single loading={this.state.loading} {...this.props} match={match} /> } />
         </div>
       </React.Fragment>
       
@@ -43,12 +52,11 @@ PhotoWall.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state, 'from stat to props');
   return { 
     posts: state.posts,
     comments: state.comments
   }
 }
-export default connect(mapStateToProps, { removePostAction, addPostToDatabase,removePostFromDatabase, addCommentsToDatabase, removeCommentAction, getPostFromDatabase })(Main);
+export default connect(mapStateToProps, { removePostAction, addPostToDatabase,removePostFromDatabase, addCommentsToDatabase, getPostFromDatabase, loadCommentsFromDatabase })(Main);
 
 

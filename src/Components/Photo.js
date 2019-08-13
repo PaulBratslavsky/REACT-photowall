@@ -2,12 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Photo = (props) => {
-  const { removePostFromDatabase, post } = props;
-  console.log('props', props);
+  const { removePostFromDatabase, post, comments } = props;
 
+  const commentCount = comments[post.id];
 
-  const currentComments = props.comments.filter( comment => comment.postID === post.id);
-  console.log(currentComments.length, "OH BABY");
 
   return (
     <figure className='figure'>
@@ -18,8 +16,7 @@ const Photo = (props) => {
         <Link className='button' to={`/single/${post.id}`}><div className='comment-count'>
           <div className='speech-bubble'>
 
-          </div>
-        {currentComments.length}</div></Link>
+          </div>{ commentCount && commentCount.length }</div></Link>
       </div>
     </figure>
   )

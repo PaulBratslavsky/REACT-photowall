@@ -1,16 +1,20 @@
-const initialState = [];
+const initialState = {};
 
 export const commentReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case 'REMOVE_COMMENT':
-      console.log(action.timestamp, 'from comment remove reducer');
-      return state.filter( comment => comment.timestamp !== action.timestamp );
-
+      return state;
     case 'ADD_COMMENT':
-      console.log('Add comment reducer', action.payload);
-      return [...state, action.payload];
 
+      if (!state[action.payload.postID]) {
+        return {...state, [action.payload.postID]: [action.payload.comment] };
+      } else {
+        return {...state, [action.payload.postID]: [ ...state[action.payload.postID], action.payload.comment ]}
+      }
+      
+      case 'LOAD_COMMENTS':
+        return action.comments;
     default: 
     return state;
   }
